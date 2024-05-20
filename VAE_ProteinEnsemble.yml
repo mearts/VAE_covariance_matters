@@ -1,0 +1,24 @@
+name: VAE_covariance_matters
+channels:
+  - pytorch
+  - conda-forge
+  - anaconda
+  - defaults
+dependencies:
+  - biopython=1.78
+  - cudatoolkit=10.2.89
+  - h5py=2.9.0
+  - matplotlib=3.1.2
+  - mdtraj=1.9.5
+  - numpy=1.17.2
+  - pandas=1.1.3
+  - python=3.6.9
+  - pytorch=1.9.0
+  - scikit-learn=0.21.3
+  - scipy=1.3.1
+  - seaborn=0.11.2
+  - torchvision=0.10.0
+  - yaml=0.1.7
+  - pip:
+    - wandb==0.13.5
+prefix: 
