@@ -77,7 +77,7 @@ class VAE(nn.Module):
         
         # U-Net
         if not self.constraints_off:
-            self.unet = UNet(n_channels=1, n_classes=1, extra_step=False, allow_negative=self.allow_negative_lambda)
+            self.unet = UNet(n_channels=1, n_classes=1, extra_step=False)
 
         # Data prior prediction (if applicable)
         if self.predict_prior:
@@ -396,7 +396,7 @@ class VAE(nn.Module):
         return mu_k
 
     
-    def forward(self, k, c, only_outputs=False):
+    def forward(self, k, only_outputs=False):
         """
         Forward step of the model
         """

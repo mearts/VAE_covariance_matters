@@ -41,10 +41,15 @@ def initialize(args):
     # Device
     device, use_gpu = get_device()
 
-    if not args.seed_off:
+    if not hasattr(args, "seed_off"):
         seed = 42
         np.random.seed(seed)
         torch.manual_seed(seed)
+    else:
+        if not args.seed_off:
+            seed = 42
+            np.random.seed(seed)
+            torch.manual_seed(seed)
 
     if args.no_wandb:
         wandb.init(mode="disabled")

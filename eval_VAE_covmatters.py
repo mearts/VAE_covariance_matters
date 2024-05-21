@@ -1,5 +1,9 @@
 """
-This script can be used to evaluate a model
+This script can be used to evaluate a model.
+Config files can be found in the wandb directory, 
+also printed on top of the wandb log.
+The path should be of the form:
+wandb/run-<date>_<time>-<id>/files/config.yaml
 """
 
 import torch
@@ -8,7 +12,7 @@ import os
 import yaml
 
 from models_and_trainer.VAE_model import VAE
-from models_and_trainer.trainer_VAE_dynamics import Trainer
+from models_and_trainer.trainer import Trainer
 from utils.utils import (
     initialize,
     process_data,

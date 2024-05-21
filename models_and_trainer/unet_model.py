@@ -81,13 +81,12 @@ class OutConv(nn.Module):
     
 class UNet(nn.Module):
 
-    def __init__(self, n_channels, n_classes, bilinear=True, extra_step = True, allow_negative=False):
+    def __init__(self, n_channels, n_classes, bilinear=True, extra_step = True):
         super(UNet, self).__init__()
         self.n_channels = n_channels
         self.n_classes = n_classes
         self.bilinear = bilinear
         self.extra_step = extra_step
-        self.allow_negative = allow_negative
 
         self.inc = DoubleConv(n_channels, 128)
         self.down1 = Down(128, 256)
@@ -133,7 +132,6 @@ class UNet(nn.Module):
             x = self.up4(x, x1)
 
         out = self.outc(x)
-        if not self.allow_negative:
-            out = self.softplus(out)
+        out = self.softplus(out)
             
         return out

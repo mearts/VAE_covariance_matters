@@ -6,12 +6,13 @@ channels:
   - defaults
 dependencies:
   - biopython=1.78
-  - cudatoolkit=10.2.89
+  - cudatoolkit=10.2.89 # Comment out when running on cpu
   - h5py=2.9.0
   - matplotlib=3.1.2
   - mdtraj=1.9.5
   - numpy=1.17.2
   - pandas=1.1.3
+  - pip=21.2.4
   - python=3.6.9
   - pytorch=1.9.0
   - scikit-learn=0.21.3

@@ -56,7 +56,7 @@ class Trainer():
             data = self.data_val if val else self.data
             for i, (x, c) in enumerate(data):
                 x = x.float().to(self.vae.device)
-                _, NLL, KL, AUX, lamb = self.vae(x, c)
+                _, NLL, KL, AUX, lamb = self.vae(x)
                 ELBO = NLL + warm_up_param * KL
                 LOSS = ELBO + self.vae.lamb_aux_weight * AUX
                 batch_losses_ELBO += ELBO.item()
@@ -126,12 +126,11 @@ class Trainer():
             batch_losses_KL = torch.empty(len(self.data))
             batch_losses_AUX = torch.empty(len(self.data))
             
-            for i, (x, c) in enumerate(self.data):
+            for i, (x, _) in enumerate(self.data):
                 x = x.float().to(self.vae.device)
-                c = c.float().to(self.vae.device) if 'x' in self.vae.ll else None
                 self.opt.zero_grad()
                 
-                _, NLL, KL, AUX, lamb = self.vae(x, c)
+                _, NLL, KL, AUX, lamb = self.vae(x)
                 ELBO = NLL + warm_up_param * KL
                 LOSS = ELBO + self.vae.lamb_aux_weight * AUX
                 
@@ -143,7 +142,7 @@ class Trainer():
                 batch_losses_ELBO[i] = ELBO.item()
                 batch_losses_NLL[i] = NLL.item()
                 batch_losses_KL[i] = KL.item()
-                batch_losses_AUX = AUX.item()
+                batch_losses_AUX[i] = AUX.item()
 
             wandb.log({'Epoch': self.epoch, 'Loss': torch.mean(batch_losses_LOSS), 'ELBO': torch.mean(batch_losses_ELBO), 
                        'NLL': torch.mean(batch_losses_NLL), 'KL':torch.mean(batch_losses_KL), 'AUX lamb':torch.mean(batch_losses_AUX)})
@@ -181,7 +180,7 @@ class Trainer():
         """
         z = []
         for x in plot_data:
-            output,_,_,_,_ = self.vae(x.to(self.device), None, only_outputs=True)
+            output,_,_,_,_ = self.vae(x.to(self.device), only_outputs=True)
             z.append(output["z"])
         x = None
         plot_data = None

@@ -8,7 +8,7 @@ import os
 import yaml
 
 from models_and_trainer.VAE_model import VAE
-from models_and_trainer.trainer_VAE_dynamics import Trainer
+from models_and_trainer.trainer import Trainer
 from utils.utils import (
     initialize,
     process_data,
