@@ -71,10 +71,7 @@ def load_data(args):
     """
     # In-house simulation data
     if args.protein == '1pga':
-        df_MD = args.data_file_path
-        df_MD = pd.read_pickle(df_MD).loc[[args.protein]]
-
-        coords = torch.from_numpy(np.stack(df_MD.loc[args.protein, 'coords_MD'])).float()
+        coords = torch.from_numpy(np.load(args.data_file_path)).float()
 
         top = md.load(args.pdb_file_path).remove_solvent().topology
         ind_withO = None

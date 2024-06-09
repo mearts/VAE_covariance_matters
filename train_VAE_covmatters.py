@@ -20,7 +20,7 @@ parser = argparse.ArgumentParser(description='VAE_dynamics_main')
 
 parser.add_argument('--save_folder', type=str, default='./results', help='Folder to save results')
 parser.add_argument('--model_name', type=str, help='Supply name for current model')
-parser.add_argument('--data_file_path', type=str, default = "./data/df_MD_1pga.pickle", help='Path to data file (pandas dataframe, .pickle), only needed for in-house simulation (1pga)')
+parser.add_argument('--data_file_path', type=str, default = "./data/df_MD_1pga.npy", help='Path to MD coordinates file (numpy array saved as .npy), only needed for in-house simulation (1pga)')
 parser.add_argument('--protein', type=str, choices=['1unc', '1fsd', '1pga', 'chig', '2f4k'], help='Protein name')
 parser.add_argument('--pdb_file_path', type=str, help='Path to pdb file for this protein. In case of NMR data, corresponds to full data set')
 
