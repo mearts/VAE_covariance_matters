@@ -1,6 +1,6 @@
 # Internal-Coordinate Density Modelling of Protein Structure: Covariance Matters
 
-This repository corresponds to the paper [Internal-Coordinate Density Modelling of Protein Structure: Covariance Matters](https://arxiv.org/abs/2302.13711).
+This repository corresponds to the paper [Internal-Coordinate Density Modelling of Protein Structure: Covariance Matters](https://openreview.net/forum?id=9XRZtZRmEB).
 
 > [!WARNING]  
 > This repository is still under development. We are working on more elaborate documention with extra examples.
@@ -42,10 +42,13 @@ Arts, Marloes, Jes Frellsen, and Wouter Boomsma. "Internal-Coordinate Density Mo
 
 BibTeX:
 ```bibtex
-@article{arts2023internal,
-  title={Internal-Coordinate Density Modelling of Protein Structure: Covariance Matters},
-  author={Arts, Marloes and Frellsen, Jes and Boomsma, Wouter},
-  journal={arXiv preprint arXiv:2302.13711},
-  year={2023}
-  }
-```
+@article{
+arts2024internalcoordinate,
+title={Internal-Coordinate Density Modelling of Protein Structure: Covariance Matters},
+author={Marloes Arts and Jes Frellsen and Wouter Boomsma},
+journal={Transactions on Machine Learning Research},
+issn={2835-8856},
+year={2024},
+url={https://openreview.net/forum?id=9XRZtZRmEB},
+note={}
+}```
