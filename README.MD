@@ -5,7 +5,7 @@ This repository corresponds to the paper [Internal-Coordinate Density Modelling 
 ## Approach
 This model generates protein structure fluctuations by sampling from a distribution over **dihedrals** and **bond angles** (bond lengths fixed), while still respecting constraints in **Euclidean space**. 
 
-<img src="./images/fig1.png" alt="model" width="400"/>
+<img src="./images/fig1.png" alt="model" width="450"/>
 
 ## Requirements
 Dependencies are listed in [VAE_covariane_matters.yml](./VAE_covariane_matters.yml), which can also be used to create a new conda environment:
@@ -30,25 +30,62 @@ The architecture for the proof-of-concept VAE model introduced in the paper is s
 ## How to run
 
 > [!IMPORTANT] 
-> Logging of training, evaluation metrics, images and run configurations is done using Weights & Biases (wandb). While it is possible to run training without wandb using the `--no_wandb` flag, resuming training and doing evaluation requires a config file. Therefore, to avoid having to construct config files manually, we strongly recommend using wandb, since the config file is then directly available in the wandb directory of the training run. This directory is also printed at the initialization of each run, so it can easily be retrieved.
+> Logging of training, evaluation metrics, images and run configurations is done using Weights & Biases (wandb). While it is possible to run training without wandb using the `--no_wandb` flag, resuming training and doing evaluation requires a config file. Therefore, to avoid having to construct config files manually, we strongly recommend using wandb, since the config file is then directly available in the wandb directory of the training run (`<path_to_wandb_run_dir>/files/config.yaml`). The directory is also printed at the initialization of each run, so it can easily be retrieved.
 
 ### Training
-#### Running the VAE with contraints
+Training is done using the [train_VAE_covmatters.py](./train_VAE_covmatters.py) script. Check `python train_VAE_covmatters.py --help` for a detailed description of all arguments. This script is used to train the main model (VAE with constraints) as well as baselines. Evaluation of atom fluctuations is done at the end of training, but can also be done separately. This is explained under the heading "Evaluation" below, together with a more detailed description of the plots.
 
+#### Running the VAE with constraints
+To run the main model presented in the paper, use the basic arguments of the training script. For example for 1pga with a $\kappa$-prior weight 50 and auxiliary $\lambda$ loss weight 25:
+
+```
+python main_VAE_dynamics.py \
+    --model_name 1pga_a50_lambmae25 \
+    --pdb_file_path ./data/1pga.pdb \
+    --protein 1pga \
+    --epochs 1000 \
+    --lr 5e-4 \
+    --batch_size 32 \
+    --num_warm_up_KL 200 \
+    --num_mean_only 100 \
+    --a_weight 50 \
+    --lambda_aux_weight 25 \
+    --num_samples_z 1000 \
+    --wandb_project <project_name>
+```
 
 #### Running baselines
-Also include flow here
+The same training script is used to train the two baselines:
+1. VAE $\kappa$-prior (fixed): a baseline where we don't add constraints, and just keep the fixed diagonal prior as the covariance matrix. To train this baseline, choose an appropriate value for `--a_weight` and add the flag `--constraints_off`.
+2. VAE $\kappa$-prior (learned): a baseline for which the prior is learned directly, without the imposed constraints. To train this baseline, add the flags `--constraints_off` and `--predict_prior`.
 
-#### Resuming or extending training
+> [!NOTE]
+> 1. For the normalizing flow baseline, we refer to the [github repository](https://github.com/noegroup/flowm) made by the authors of the corresponding [paper](https://arxiv.org/abs/2203.11167).
+> 2. There is also a `--constraints_only` flag which can be used to train the VAE without the prior, only using constraints. This setting was added for exploratory purposes, and it makes training highly unstable.
+
+#### Extending training
+To extend training beyond the last saved checkpoint, use the [resume_training.py](./resume_training.py) script, see `--help` for options. The main input you need here is the path to the config file, which is saved in the run dir of the previous training run: `<path_to_wandb_run_dir>/files/config.yaml`.
 
 
 ### Evaluation
-#### Evaluating the VAE with constraints
+#### Evaluating fluctuations
+The [eval_VAE_covmatters.py](./eval_VAE_covmatters.py) script (see `--help` for options) takes the config file of a training run (`<path_to_wandb_run_dir>/files/config.yaml`) and produces the same plots that are made by default at the end of training:
+* "sample plot", containing:
+    1. A visualization of the precision matrix (1 mean, 1 random sample)
+    2. A 2D visualization of latent space
+    3. Dihedral distributions and a Ramachandran plot\
+    4. Mean and standard deviation for pairwise distances
+* "atomfluct_plot", containing:
+    1. Atom fluctuation comparison (non-superposed) between the VAE samples and constraints $C$. See Appendix C of [our paper](https://openreview.net/forum?id=9XRZtZRmEB) for a more detailed explanation.
+    2. Non-superposed fluctuation comparison between the VAE samples and the reference.
+    3. Superposed fluctuation comparison between VAE samples, reference, prior only, and standard covariance estimator. Zoomed-in and zoomed-out version.
+    4. $C$ vs $\lambda$ scatterplots.
 
-#### Evaluating baselines
+> [!NOTE]
+> The reference for the sample plot can be created using the [TICA_and_GTfluct/GTfluct_plot.py](./TICA_and_GTfluct/GTfluct_plot.py) script.
 
-#### TICA analysis
-
+#### TIC analysis
+In order to do TICA, the reference TICA model needs to be created first using [TICA_and_GTfluct/fit_GT_TICA.py](./TICA_and_GTfluct/fit_GT_TICA.py). This TICA model can then be applied to standard estimator samples and VAE samples (with constraints as well as baselines) using [TICA_and_GTfluct/TICA_npcov_circmean.py](./TICA_and_GTfluct/TICA_npcov_circmean.py) and [TICA_and_GTfluct/TICA_samples.py](./TICA_and_GTfluct/TICA_samples.py), respectively. The main argument for these scripts is again the wandb config from the corresponding training run `<path_to_wandb_run_dir>/files/config.yaml`.
 
 ## Cite
 Please cite the following paper when using this code base:
