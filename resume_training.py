@@ -20,8 +20,8 @@ parser = argparse.ArgumentParser(description='VAE_dynamics_resume_training')
 
 parser.add_argument('--config_file_path', type=str, help='Path to config yaml file')
 parser.add_argument('--epochs', type=int, default=1000, help='Number of additional epochs')
-parser.add_argument('--wandb_user', type=str, default='marts', help='Wandb user name')
-parser.add_argument('--wandb_project', type=str, default='VAE_dynamics', help='Wandb project name')
+parser.add_argument('--wandb_user', type=str, help='Wandb user name')
+parser.add_argument('--wandb_project', type=str, help='Wandb project name')
 parser.add_argument('--no_wandb', action='store_true', help='Disable wandb')
 
 args = parser.parse_args()
