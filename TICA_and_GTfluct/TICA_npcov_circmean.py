@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats import circmean
 from sklearn.covariance import MinCovDet, empirical_covariance, oas
 import argparse
-from utils.additional_utils import Args, get_tic_features
+from utils.tica_utils import Args, get_tic_features
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import pickle

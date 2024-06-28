@@ -20,7 +20,7 @@ torch.manual_seed(seed)
 device, use_gpu = get_device()
 
 parser = argparse.ArgumentParser(description='Generate_GT_plots')
-parser.add_argument('--data_file_path', type=str, default = "./data/df_MD_1pga.pickle", help='Path to data file (pandas dataframe, .pickle), only needed for in-house simulation (1pga)')
+parser.add_argument('--data_file_path', type=str, default = "../data/df_MD_1pga.npy", help='Path to MD coordinates file (numpy array saved as .npy), only needed for in-house simulation (1pga)')
 parser.add_argument('--protein', type=str, choices=['1unc', '1fsd', '1pga', 'chig', '2f4k'], help='Protein name')
 parser.add_argument('--pdb_file_path', type=str, help='Path to pdb file for this protein')
 
@@ -91,4 +91,4 @@ ax[5].set_ylim(0, d_mean.shape[1])
 
 fig.tight_layout()
 
-fig.savefig(f'../results/fluct/gt_{args.protein}.png', format='png')
+fig.savefig(f'../results/gt_{args.protein}.png', format='png')

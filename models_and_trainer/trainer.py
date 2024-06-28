@@ -367,11 +367,11 @@ class Trainer():
             structs_prior = structs_prior[:, top2_order_reverse, :]
         prior = np.var(traj_prior, axis=0)
 
-        if not os.path.isdir("./pdb_files"):
-            os.makedirs("./pdb_files")
+        if not os.path.isdir("./sample_pdb_files"):
+            os.makedirs("./sample_pdb_files")
         traj = md.Trajectory(get_coord_with_O(structs_prior, topology)/10, topology=topology["topology"])
         model_name = "" if model_name is None else model_name + "_"
-        traj.save_pdb("pdb_files/prior_withO_" + model_name + datetime.now().strftime("%d-%m-%Y_%H:%M:%S") + ".pdb")
+        traj.save_pdb("sample_pdb_files/prior_withO_" + model_name + datetime.now().strftime("%d-%m-%Y_%H:%M:%S") + ".pdb")
 
         # np.cov
         kappa_mean = torch.from_numpy(circmean(kappa, axis=0, low=-np.pi, high=np.pi))
@@ -408,11 +408,11 @@ class Trainer():
             structs_npcov = structs_npcov[:, top2_order_reverse, :]
         npcov = np.var(traj_npcov, axis=0)
 
-        if not os.path.isdir("./pdb_files"):
-            os.makedirs("./pdb_files")
+        if not os.path.isdir("./sample_pdb_files"):
+            os.makedirs("./sample_pdb_files")
         traj = md.Trajectory(get_coord_with_O(structs_npcov, topology)/10, topology=topology["topology"])
         model_name = "" if model_name is None else model_name
-        traj.save_pdb("pdb_files/estcov_withO_" + model_name + datetime.now().strftime("%d-%m-%Y_%H:%M:%S") + ".pdb")
+        traj.save_pdb("sample_pdb_files/estcov_withO_" + model_name + datetime.now().strftime("%d-%m-%Y_%H:%M:%S") + ".pdb")
 
         fig2, ax = plt.subplots(7, 1, figsize=(10, 35), facecolor = 'white')
         ax = ax.flatten()
@@ -501,7 +501,7 @@ class Trainer():
             z, samples = self.get_basic_results(plot_data, num_samples_z, topology, model_name, batch_size)
             
             # Plot 1: latent space and matrices
-            self.plot_latent_and_matrices(z, samples, di_means, save)
+            self.plot_latent_and_matrices(z, samples, save)
 
             # Plot 2: fluctuation plots
             self.plot_fluctuation(samples, kappa, topology, save, num_samples_z, coords, coords_pnerf, model_name, bs_Cm=batch_size)

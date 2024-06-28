@@ -2,16 +2,14 @@ import sys
 import os
 import numpy as np
 import torch
-from torch.distributions import Normal
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import pickle
-from utils.additional_utils import Args, get_tic_features
+from utils.tica_utils import Args, get_tic_features
 import argparse
 
 sys.path.insert(0, "../")
 from models_and_trainer.VAE_model import VAE
-from utils.utils import prepare_for_pnerf, samples_to_structures
 
 
 parser = argparse.ArgumentParser(description='TICA_VAE_samples')

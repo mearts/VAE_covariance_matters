@@ -278,7 +278,7 @@ class VAE(nn.Module):
 
     def fluctuation_step(self, structs, lamb, mu_k):
         """
-        Take one fluctation stepp (without calculating loss)
+        Take one fluctation step (without calculating loss)
         """
         kappa = []
         prec_matrices = []
@@ -320,7 +320,7 @@ class VAE(nn.Module):
                 
                 structs = self.get_structures(mu_k)
                 assert structs.shape[0] == num_samples_z, \
-                f'Shape mismatch, step {i}, shape: {structs.shape} (expected len {num_samples_z})'
+                f'Shape mismatch, shape: {structs.shape} (expected len {num_samples_z})'
 
                 # Save sampled structures
                 if topology is not None and i == 1:
@@ -328,7 +328,7 @@ class VAE(nn.Module):
                         os.makedirs("./sample_pdb_files")
                     traj = md.Trajectory(get_coord_with_O(structs, topology)/10, topology=topology["topology"])
                     model_name_save = "" if model_name is None else model_name + "_"
-                    traj.save_pdb(f"pdb_files/samples_withO_step{i}of{self.steps}_{model_name_save}{datetime.now().strftime('%d-%m-%Y_%H:%M:%S')}.pdb")
+                    traj.save_pdb(f"sample_pdb_files/samples_withO_{model_name_save}{datetime.now().strftime('%d-%m-%Y_%H:%M:%S')}.pdb")
 
         return {'dihedrals':mu_k[:, :self.num_dihedrals].cpu(), 'bond_angles':mu_k[:, self.num_dihedrals:].cpu(), 
                 'structures':structs.cpu(), 'precision_matrices':prec, 'z_samples':z_samples.cpu()}

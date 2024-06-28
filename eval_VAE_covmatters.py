@@ -23,8 +23,8 @@ from utils.utils import (
 parser = argparse.ArgumentParser(description='VAE_dynamics_resume_training')
 
 parser.add_argument('--config_file_path', type=str, help='Path to config yaml file')
-parser.add_argument('--wandb_user', type=str, default='marts', help='Wandb user name')
-parser.add_argument('--wandb_project', type=str, default='VAE_dynamics', help='Wandb project name')
+parser.add_argument('--wandb_user', type=str, help='Wandb user name')
+parser.add_argument('--wandb_project', type=str, help='Wandb project name')
 parser.add_argument('--no_wandb', action='store_true', help='Disable wandb')
 parser.add_argument('--batch_size', type=int, default=8, help='Batch size for evaluation')
 parser.add_argument('--num_samples_z_eval', type=int, default=None, help='Number of latent space samples')

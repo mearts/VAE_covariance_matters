@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import pickle
 import argparse
-from utils.additional_utils import Args, get_tic_features
+from utils.tica_utils import Args, get_tic_features
 
 sys.path.insert(0, "../")
 from utils.utils import process_data
@@ -15,7 +15,7 @@ seed = 42
 np.random.seed(seed)
 torch.manual_seed(seed)
 
-parser = argparse.ArgumentParser(description='TICA_VAE_samples')
+parser = argparse.ArgumentParser(description='GT_TICA')
 parser.add_argument('--config_file_path', type=str, help='Path to config file', required=True)
 parser.add_argument('--num_samples_z', type=int, default=400000, help='Number of samples to draw from latent space (z)')
 parser.add_argument('--bs', type=int, default=100000, help='Batch size for feature extraction')
@@ -33,16 +33,6 @@ print("Loading data...", flush=True)
 path_to_main = '../'
 
 args = Args(args_new.config_file_path, path_to_main)
-
-if args.protein == 'chig':
-    args.data_file_path = '../temp_data/CLN025-0-protein/'
-elif args.protein == 'ubiq':
-    args.data_file_path = '../temp_data/jpcb2016-1-protein/'
-elif args.protein == '2f4k':
-    args.data_file_path = '../temp_data/2F4K-0-protein/'
-elif args.protein == 'ntl9':
-    args.data_file_path = '../temp_data/NTL9-3-protein/'
-
 data_dict = process_data(args)
 
 
