@@ -87,6 +87,9 @@ The [eval_VAE_covmatters.py](./eval_VAE_covmatters.py) script (see `--help` for 
 #### TIC analysis
 In order to do TICA, the reference TICA model needs to be created first using [TICA_and_GTfluct/fit_GT_TICA.py](./TICA_and_GTfluct/fit_GT_TICA.py). This TICA model can then be applied to standard estimator samples and VAE samples (with constraints as well as baselines) using [TICA_and_GTfluct/TICA_npcov_circmean.py](./TICA_and_GTfluct/TICA_npcov_circmean.py) and [TICA_and_GTfluct/TICA_samples.py](./TICA_and_GTfluct/TICA_samples.py), respectively. The main argument for these scripts is again the wandb config from the corresponding training run `<path_to_wandb_run_dir>/files/config.yaml`.
 
+#### Samples
+Samples for the VAE and different baselines used to create [supplementary Figure A2](./samples/FigA2_samples.pdf) of the paper can be found in [samples](./samples/).
+
 ## Cite
 Please cite the following paper when using this code base:
 
